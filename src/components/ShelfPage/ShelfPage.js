@@ -5,6 +5,9 @@ import './ShelfPage.css';
 function ShelfPage() {
   const [shelfList, setShelfList] = useState([]);
 
+  const [newItem, setNewItem] = useState('');
+  const [imagUrl, setImageUrl] = useState('');
+
   useEffect(() => {
     fetchPets();
   }, []);
@@ -18,8 +21,27 @@ function ShelfPage() {
     });
   }
 
+  const addNewItem = (e) => {
+    e.preventDefault();
+    axios.post('/api/shelf', { description: newItem , image_url: imagUrl }).then(() => {
+        fetchPets();
+    }).catch((e) => {
+        console.log(e);
+        alert('something went wrong');
+    })
+}
+
   return (
     <div className="container">
+
+      
+      <h2>Add Item</h2>
+            <form onSubmit={addNewItem}>
+                <input value={newItem} onChange={(e) => setNewItem(e.target.value)} type="text" />
+                <input value={imagUrl} onChange={(e) => setImageUrl(e.target.value)} type="text" />
+
+                <input type="submit" />
+            </form>
       <h2>Shelf</h2>
       <p>All of the available items can be seen here.</p>
       {
