@@ -31,6 +31,15 @@ function ShelfPage() {
     })
 }
 
+const deleteItem = (itemId) => {
+  axios.delete(`/api/shelf/${itemId}`).then(() =>{
+    fetchPets();
+  }).catch((e) => {
+    console.log(e);
+    alert('something went wrong in deleteItem');
+  })
+}
+
   return (
     <div className="container">
 
@@ -57,7 +66,7 @@ function ShelfPage() {
                         <br />
                         <div className="desc">{item.description}</div>
                         <div style={{textAlign: 'center', padding: '5px'}}>
-                          <button style={{cursor: 'pointer'}}>Delete</button>
+                          <button  style={{cursor: 'pointer'}} onClick={() => deleteItem(item.id)}>Delete</button>
                         </div>
                     </div>
                  </div>
